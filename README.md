@@ -1,27 +1,20 @@
-# Fably - Smart Fashion AR Application
+# Fably - AI Virtual Try-On Application
 
 ![image](https://github.com/user-attachments/assets/83a96b4f-e64a-4ddf-a8f5-04972839020d)
 
 
-Fably is an innovative Flutter-based fashion application that leverages Augmented Reality (AR) to revolutionize the way users visualize and choose clothing. Using advanced 3D body scanning technology, the app creates personalized virtual models for accurate clothing visualization and style recommendations.
+Fably is an innovative Flutter-based fashion application that leverages AI image generation to revolutionize the way users visualize and choose clothing. Using FASHN AI Virtual Try-On API, the app creates personalized virtual models for accurate clothing visualization.
 
 ## 🎯 Core Features
 
-- **3D Body Scanning & Modeling**
-  - Precise body measurements through multi-angle photography
-  - Creation of personalized 3D avatar
-  - Accurate body type analysis
-
 - **Virtual Try-On**
-  - Real-time clothing visualization on 3D model
-  - Multiple outfit combinations
-  - Accurate fabric draping and physics
-  - 360° view of outfits
+  - Realistic clothing visualization using user-uploaded images
+  - Accurate fit and style representation
+  - Ability to Try-On a wide variety clothing, from individual clothing items like T-shirts, to Dresses and Suits.
 
-- **Style Recommendations**
+- **Style Recommendations** (Upcoming features)
   - Personalized clothing suggestions based on body type
   - Color palette recommendations
-  - Outfit combination assistance
   - Couple matching suggestions (upcoming feature)
 
 ## Prerequisites
@@ -31,7 +24,6 @@ Before running the application, ensure you have the following installed:
 - Flutter SDK (version ^3.6.0)
 - Dart SDK 
 - Android Studio / Xcode (for iOS development)
-- Firebase account and project setup
 - Camera-enabled device/emulator (min SDK 23 for Android)
 
 ## Environment Setup
@@ -45,13 +37,6 @@ Before running the application, ensure you have the following installed:
 flutter doctor
 ```
 
-### 2. Firebase Configuration
-- Create a new Firebase project
-- Add Android/iOS apps to your Firebase project
-- Download and place configuration files:
-  - Android: `google-services.json` in `android/app/`
-  - iOS: `GoogleService-Info.plist` in iOS project
-
 ## Project Setup
 
 1. Clone and setup the repository:
@@ -63,10 +48,6 @@ cd fably
 # Install dependencies
 flutter pub get
 ```
-
-2. Configure Firebase:
-   - Enable Authentication in Firebase Console
-   - Set up Email/Password and Google Sign-in methods
 
 ## Required Permissions
 
@@ -91,50 +72,63 @@ Add to `Info.plist`:
 ## Project Structure
 ```
 fably/
-├── lib/                              # Main source code directory
-│   ├── screens/                      # UI screens and views
-│   │   ├── auth/                    # Authentication related screens
-│   │   │   ├── auth_widget.dart     # Reusable auth UI components
-│   │   │   ├── login.dart          # Login screen implementation
-│   │   │   └── register.dart       # Registration screen implementation
-│   │   ├── gender/                  # Gender selection feature
-│   │   │   └── gender_selection.dart # Gender selection screen
-│   │   ├── home/                    # Main app screens
-│   │   │   └── home.dart           # Home screen implementation
-│   │   └── scanner/                 # Body scanning feature
-│   │       ├── camera.dart         # Camera handling and capture
-│   │       └── scanner.dart        # Scanning interface and logic
-│   ├── utils/                        # Utility functions and helpers
-│   │   └── user_preferences.dart    # User preferences management
-│   └── main.dart                    # Application entry point
-├── assets/                          # Static assets directory
-│   └── Gif_fably.gif               # Loading/intro animation
-├── fonts/                           # Custom fonts
-│   ├── Italiana-Regular.ttf         # Italiana font for headings
-│   └── Jura-Regular.ttf            # Jura font for body text
-├── android/                         # Android platform code
+├── lib/                                 # Main source code directory
+│   ├── screens/                         # UI screens and views
+│   │   ├── auth/                        # Authentication related screens
+│   │   │   ├── auth_widget.dart         # Reusable auth UI components
+│   │   │   ├── login.dart               # Login screen implementation
+│   │   │   └── register.dart            # Registration screen implementation
+│   │   ├── home/                        # Main app screens
+│   │   │   ├── home.dart                # Home screen implementation
+│   │   |   └── widgets/
+|   |   |       ├── bottom_nav_bar.dart  # Reusable nav bar widget
+|   |   |       ├── common_appbar.dart   # Reusable App bar widget
+|   |   |       └── common_drawer.dart   # Reusable drawer menu widget
+│   │   ├── profile/
+│   │   |   └── profile_page.dart        # User profile page
+│   │   ├── scanner/
+│   │   |   ├── add_images.dart          # Page to upload image for virtual try-on
+│   │   |   ├── individual_try_on.dart   # Page to show individual result in 
+|   |   |   |                              try-on history
+│   │   |   ├── select_product.dart      # Page to select the product for try-on
+│   │   |   ├── tryon_result.dart        # Page to view the try-on result
+│   │   |   └── vton_history.dart        # Page to view Previous Try-Ons
+│   │   └── shop/
+│   │       ├── components/              # Small components reused in other pages
+│   │       |   └── product_rating.dart  # Product rating widget in product page
+│   │       ├── cart.dart                # Cart Page
+│   │       ├── checkout_screen.dart     # Checkout Screen
+│   │       ├── order_page.dart          # Order Page
+│   │       ├── product.dart             # Individual Product Page
+│   │       ├── review_page.dart         # Review Page
+│   │       ├── shopping_history.dart    # Shopping History
+│   │       ├── success_page.dart        # Purchase Success Page
+│   │       └── wishlist.dart            # Wishlist Page
+│   ├── utils/                           # Utility functions and helpers
+│   │   ├── globals.darts                # Sets global variables for the app
+│   │   ├── prefs.dart                   # Simplifies preferences
+│   │   ├── requests.dart                # Simplifies HTTP requests management
+│   │   └── user_preferences.dart        # User preferences management
+│   └── main.dart                        # Application entry point
+├── assets/                              # Static assets directory
+│   └── Gif_fably.gif                    # Loading/intro animation
+├── fonts/                               # Custom fonts
+│   ├── Italiana-Regular.ttf             # Italiana font for headings
+│   └── Jura-Regular.ttf                 # Jura font for body text
+├── android/                             # Android platform code
 │   └── app/
 │       └── src/
 │           └── main/
-│               └── AndroidManifest.xml  # Android configuration
-├── ios/                             # iOS platform code
-├── test/                            # Test files directory
-├── pubspec.yaml                     # Project dependencies and config
-└── README.md                        # Project documentation
+│               └── AndroidManifest.xml # Android configuration
+├── ios/                                # iOS platform code
+├── test/                               # Test files directory
+├── pubspec.yaml                        # Project dependencies and config
+└── README.md                           # Project documentation
 ```
-
+<!--
 ## Features
 
 ### Core Functionality
-- Advanced Body Scanning
-  - Multi-angle photo capture
-  - Accurate measurements calculation
-  - Body type analysis
-
-- Virtual Fitting Room
-  - Real-time clothing visualization
-  - Fabric simulation
-  - Mix and match capabilities
 
 - Style Assistant
   - Body-type based recommendations
@@ -142,45 +136,31 @@ fably/
   - Color coordination advice
 
 ### Technical Features
-- Firebase Authentication (Email & Google Sign-in)
 - Local data persistence
 - Camera integration
-- AR implementation
-- Dark theme support
-
+-->
 ## Dependencies
 ```yaml
 dependencies:
   flutter:
     sdk: flutter
-  firebase_auth: ^5.3.4
-  firebase_core: ^3.9.0
   google_sign_in: ^5.2.1
+  cupertino_icons: ^1.0.8
+  shared_preferences: ^2.2.2
   camera: ^0.10.5+9
   image_picker: ^1.0.7
-  shared_preferences: ^2.0.0
-  arcore_flutter_plugin: ^0.1.0  # For Android AR
-  arkit_plugin: ^1.0.5  # For iOS AR
-  sceneform_flutter: ^0.1.0  # 3D model rendering
+  http: ^1.1.0
+  liquid_pull_to_refresh: ^3.0.0
+  flutter_slidable: ^4.0.0
 ```
 
 ## Troubleshooting
 
-### Camera and Scanning Issues
+### Camera and Image Capture Issues
 - Ensure all camera permissions are granted
 - Verify adequate lighting conditions
 - Check device compatibility (minimum SDK 23 for Android)
 - Ensure sufficient device storage
-
-### AR Implementation Issues
-- Verify ARCore/ARKit support on device
-- Check camera calibration
-- Ensure stable internet connection for model downloads
-
-### Firebase Issues
-- Verify configuration files placement
-- Check Firebase console settings
-- Confirm authentication methods activation
 
 ## Development Guidelines
 
@@ -191,7 +171,6 @@ dependencies:
 - Document API endpoints and models
 
 ### Performance Considerations
-- Optimize 3D model loading
 - Cache frequently used assets
 - Implement lazy loading for clothing catalog
 - Minimize network requests
@@ -214,9 +193,7 @@ dependencies:
 
 
 ## Contact
-Project Link: https://fably.omeshapasan.xyz
+Project Link: https://fably.pro
 
 ## Acknowledgments
 - Flutter team for the framework
-- ARCore/ARKit for AR capabilities
-- Firebase for backend services
